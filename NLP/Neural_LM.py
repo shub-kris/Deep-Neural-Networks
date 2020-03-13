@@ -66,7 +66,7 @@ def generate_text(model, char_int, seq_length, in_txt, n_chars):
         encoded = pad_sequences([encoded], maxlen = seq_length, truncating = 'pre')  #For a fixed length input and adds if less
         pred_class = model.predict_classes(encoded, verbose = 0)
         # print(pred_char, type(pred_char))
-        out_ch = ' '
+        out_ch = ''
         for ch, int in char_int.items():
             if int == pred_class:
                 out_char = ch
@@ -85,7 +85,7 @@ def main():
     LM = build_model(len(char_int), hid_dim, seq_length)
     # print(LM.summary())
     LM.compile(loss='categorical_crossentropy', metrics=['acc'], optimizer='adam')
-    LM.fit(X_tr, y_tr, epochs = 10, verbose = 2, validation_data = (X_val, y_val))
+    LM.fit(X_tr, y_tr, epochs = 100, verbose = 2, validation_data = (X_val, y_val))
     inp = 'We hold these truths'
     print(generate_text(LM, char_int, seq_length, inp, 30))
 
